@@ -7,6 +7,8 @@ class Post {
   final int comments;
   final int views;
   final String imageUrl;
+  final String imagePath;
+  final String authorName;
 
   const Post({
     required this.id,
@@ -17,11 +19,12 @@ class Post {
     required this.comments,
     required this.views,
     this.imageUrl = '',
+    this.imagePath = '',
+    this.authorName = '',
   });
 
   String get profileImageUrl => '';
-  String get imagePath => '';
-  bool get hasImage => false;
+  bool get hasImage => imageUrl.isNotEmpty || imagePath.isNotEmpty;
 
   factory Post.fromJson(Map<String, dynamic> json) {
     final reactions = json['reactions'];
@@ -37,6 +40,8 @@ class Post {
       comments: json['comments'] as int? ?? 0,
       views: json['views'] as int? ?? 0,
       imageUrl: json['image'] as String? ?? json['imageUrl'] as String? ?? '',
+      imagePath: json['imagePath'] as String? ?? '',
+      authorName: json['authorName'] as String? ?? '',
     );
   }
 
@@ -49,5 +54,20 @@ class Post {
         'comments': comments,
         'views': views,
         'imageUrl': imageUrl,
+        'imagePath': imagePath,
+          'authorName': authorName,
       };
+
+        Post copyWith({String? imagePath, String? authorName}) => Post(
+        id: id,
+        userId: userId,
+        title: title,
+        body: body,
+        likes: likes,
+        comments: comments,
+        views: views,
+        imageUrl: imageUrl,
+        imagePath: imagePath ?? this.imagePath,
+        authorName: authorName ?? this.authorName,
+      );
 }

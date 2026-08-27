@@ -19,7 +19,22 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) return const Center(child: CircularProgressIndicator());
         if (snapshot.hasError) return Center(child: Text('Unable to load feed: ${snapshot.error}'));
-        final posts = snapshot.data ?? [];
+        final imagePaths = <String>[
+          'assets/images/cute.jpg',
+          'assets/images/jose.jpg',
+          'assets/images/lbj.jpg',
+          'assets/images/pacman.jpg',
+          'assets/images/thanos.jpeg',
+        ];
+        final posts = (snapshot.data ?? [])
+            .asMap()
+            .entries
+            .map((entry) => entry.value.copyWith(
+                  imagePath: entry.value.imageUrl.isEmpty
+                      ? imagePaths[entry.key % imagePaths.length]
+                      : entry.value.imagePath,
+                ))
+            .toList();
         return ListView.builder(itemCount: posts.length, itemBuilder: (_, index) => PostCard(post: posts[index]));
       },
     );

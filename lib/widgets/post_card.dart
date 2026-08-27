@@ -80,7 +80,7 @@ class _PostCardState extends State<PostCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomFont(
-                        text: 'User ${post.userId}',
+                        text: post.authorName.isEmpty ? 'User ${post.userId}' : post.authorName,
                         fontSize: ScreenUtil().setSp(15),
                         color: Theme.of(context).colorScheme.onSurface,
                         fontWeight: FontWeight.bold,
@@ -110,11 +110,13 @@ class _PostCardState extends State<PostCard> {
               ), // CustomFont
               SizedBox(height: ScreenUtil().setSp(5)),
               // Activity 1 - Enhancement 1: placeholder/widget for the image area
-                if (post.imageUrl.isNotEmpty)
+                if (post.hasImage)
                   SizedBox(
                     width: double.infinity,
                     height: ScreenUtil().setHeight(180),
-                    child: Image.network(post.imageUrl, fit: BoxFit.cover),
+                    child: post.imageUrl.isNotEmpty
+                        ? Image.network(post.imageUrl, fit: BoxFit.cover)
+                        : Image.asset(post.imagePath, fit: BoxFit.cover),
                   ),
               SizedBox(height: ScreenUtil().setSp(5)),
               CustomFont(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../services/user_service.dart';
-import 'home_screen.dart';
+import 'splash_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -25,7 +25,7 @@ class _SignInScreenState extends State<SignInScreen> {
     setState(() { _loading = true; _error = null; });
     try {
       await _service.login(_username.text.trim(), _password.text);
-      if (mounted) Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen()));
+      if (mounted) Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const SplashScreen()));
     } catch (error) {
       if (mounted) setState(() => _error = error.toString().replaceFirst('Exception: ', ''));
     } finally { if (mounted) setState(() => _loading = false); }

@@ -2,6 +2,8 @@ import 'package:facebook_replication/constants.dart';
 import 'package:facebook_replication/screens/newsfeed_screen.dart';
 import 'package:facebook_replication/screens/notification_screen.dart';
 import 'package:facebook_replication/screens/profile_screen.dart';
+import 'package:facebook_replication/screens/friends_screen.dart';
+import 'package:facebook_replication/screens/settings_screen.dart';
 import 'package:facebook_replication/widgets/custom_font.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -89,16 +91,14 @@ class _HomeScreenState extends State<HomeScreen> {
         _pageController.jumpToPage(0);
         break;
       case 1:
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Friends - Coming soon')));
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const FriendsScreen()));
         break;
       case 2:
         setState(() => _selectedIndex = 1);
         _pageController.jumpToPage(1);
         break;
       case 3:
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Menu - Coming soon')));
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsScreen()));
         break;
       case 4:
         setState(() => _selectedIndex = 2);

@@ -53,11 +53,13 @@ class _DetailScreenState extends State<DetailScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-                (post.imageUrl.isNotEmpty)
+                (post.hasImage)
                   ? SizedBox(
                       height: ScreenUtil().setHeight(220),
                       width: double.infinity,
-                    child: Image.network(post.imageUrl, fit: BoxFit.cover),
+                    child: post.imageUrl.isNotEmpty
+                        ? Image.network(post.imageUrl, fit: BoxFit.cover)
+                        : Image.asset(post.imagePath, fit: BoxFit.cover),
                     )
                   : SizedBox(height: ScreenUtil().setHeight(20)),
               Container(
@@ -81,7 +83,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomFont(
-                          text: 'User ${post.userId}',
+                          text: post.authorName.isEmpty ? 'User ${post.userId}' : post.authorName,
                           fontSize: ScreenUtil().setSp(20),
                           color: Theme.of(context).colorScheme.onSurface,
                           fontWeight: FontWeight.bold,

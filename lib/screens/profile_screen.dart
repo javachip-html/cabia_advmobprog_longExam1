@@ -24,6 +24,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late Future<User?> _user;
   Future<List<Post>>? _posts;
 
+  Future<List<Post>> _loadProfilePosts(User user) async {
+    final posts = await _postService.fetchPosts(userId: user.id);
+    final profilePosts = posts
+        .map((post) => post.copyWith(authorName: user.displayName))
+        .toList();
+    profilePosts.insert(
+      0,
+      Post(
+        id: 10001,
+        userId: user.id,
+        title: 'Welcome to my CCITBook profile',
+        body: 'Hello everyone! This is my first post on CCITBook.',
+        likes: 0,
+        comments: 0,
+        views: 0,
+        authorName: user.displayName,
+        imagePath: 'assets/images/cute.jpg',
+      ),
+    );
+    return profilePosts;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -100,7 +122,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       final user = userSnapshot.data;
       if (userSnapshot.connectionState == ConnectionState.waiting) return const Center(child: CircularProgressIndicator());
       if (user == null) return const Center(child: Text('No signed-in user.'));
-      _posts ??= _postService.fetchPosts(userId: user.id);
+      _posts ??= _loadProfilePosts(user);
     return DefaultTabController(
       length: 3,
       child: Container(
